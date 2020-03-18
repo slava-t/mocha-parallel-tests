@@ -28,6 +28,10 @@ export interface Thread {
 export type SubprocessMessage = SubprocessOutputMessage | SubprocessRunnerMessage;
 
 export function supportsWorkerThreads(): boolean {
+  const useProcessesEnvVar = (process.env.USE_PROCESSES || '').toLowerCase();
+  if (['true', '1', 'yes', 'y'].indexOf(useProcessesEnvVar) > -1) {
+    return false;
+  }
   try {
     require('worker_threads');
     return true;
